@@ -1,9 +1,10 @@
 
+# Import libraries
 import BlynkLib, os
 from time import time, sleep
 from sense_hat import SenseHat
 
-#initialise SenseHAT
+# Initialise SenseHAT
 sense = SenseHat()
 sense.clear()
 
@@ -13,39 +14,36 @@ BLYNK_AUTH = os.getenv("BLYNK_AUTH")
 # Initialise the Blynk instance
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
 
-#time in seconds before process times out/shuts down
+# Process Timeout
 INACTIVITY_TIMEOUT = 90  #  90 seconds
 blynk.last_activity = time()   # attach last activity to the instance
 
-#temperature factor
+# Set Temperature Factor - used to offset the heat from the Pi
 temp_factor = 1.8
 
-# Track instances of virtual button/switch and change Pi LED colours when on
-@blynk.on("V1")
-def handle_v1_write(value):
-    button_value = value[0]
-    blynk.last_activity = time()  # Track last time we saw any activity
-    print(f'Current button value: {button_value}')
-    if button_value=="1":
-        sense.clear(255,255,255)
-    else:
-        sense.clear()
-
-   
-
-# Main loop to keep the Blynk connection alive and process events
+# Process Blynk Events
 if __name__ == "__main__":
-    print("Blynk application started. Listening for events...")
+    print("Blynk application initialised. Processes running...")
     try:
         while True:
             blynk.run()  # Process Blynk events
-            corrected_temp = (sense.temperature)/temp_factor
+            corrected_temp = round((sense.temperature)/temp_factor,1)   # Calculate corrected temperature
             blynk.virtual_write(0,corrected_temp)  # Send corrected temperature to virtual pin V0
+            
+            # Send additional temperature message to virtual pin v1 based on temperature thresholds
+            if corrected_temp >=26:
+                blynk.virtual_write(1,"Hot!")  
+            elif corrected_temp <= 18:
+                blynk.virtual_write(1,"Cold!") 
+            else:
+                blynk.virtual_write(1,"Fine")  
             now = time()
+
             #If there's been no activity, break out of loop
             if now - blynk.last_activity > INACTIVITY_TIMEOUT:
-            	print(f"No activity for {INACTIVITY_TIMEOUT} seconds. Exiting.")
+            	print(f"No process activity for {INACTIVITY_TIMEOUT} seconds. Programme exiting.")
             	break
             sleep(2)  # Add a short delay to avoid high CPU usage
+
     except KeyboardInterrupt:
-        print("Blynk application stopped.")
+        print("Blynk application manually stopped.")
