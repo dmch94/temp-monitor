@@ -11,7 +11,7 @@ green = (0, 255, 0)
 red = (255,0,0)
 
 # Set temperature factor - used to offset Pi temperature
-correction_factor = 1.7
+correction_factor = 1
 
 # Initialise main loop
 while True:
