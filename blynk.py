@@ -41,8 +41,8 @@ if __name__ == "__main__":
 
             #If there's been no activity, break out of loop
             if now - blynk.last_activity > INACTIVITY_TIMEOUT:
-            	print(f"No process activity for {INACTIVITY_TIMEOUT} seconds. Programme exiting.")
-            	break
+                print(f"No process activity for {INACTIVITY_TIMEOUT} seconds. Programme exiting.")
+                break
             sleep(2)  # Add a short delay to avoid high CPU usage
 
     except KeyboardInterrupt:
