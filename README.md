@@ -22,13 +22,25 @@ A temperature monitoring system built with a **Raspberry Pi 4** and **Sense HAT*
 
 ## Software Requirements
 
+- Raspberry Pi OS
 - Python 3
 - Sense HAT Python library
 - Blynk library
-- Raspberry Pi OS
 
 ---
 
 ## Installation
 
 ### 1. Update Raspberry Pi
+sudo apt-get update
+
+### 2. Install Sense HAT
+sudo apt-get install sense-hat
+
+### 3. Reboot
+sudo reboot
+
+## Running LED Temperature Monitor 
+python temp-monitor.py
+
+## Running Blynk App Temperature Monitor
