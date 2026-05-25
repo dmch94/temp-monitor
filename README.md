@@ -17,6 +17,7 @@ A temperature monitoring system built with a **Raspberry Pi 4** and **Sense HAT*
 - MicroSD card with Raspberry Pi OS
 - Power supply
 - Internet connection (for Blynk)
+- Smartphone/PC with Blynk App
 
 ---
 
@@ -40,7 +41,34 @@ sudo apt-get install sense-hat
 ### 3. Reboot
 sudo reboot
 
-## Running LED Temperature Monitor 
+
+## Run LED Temperature Monitor 
 python temp-monitor.py
 
-## Running Blynk App Temperature Monitor
+## Run Blynk App Temperature Monitor
+
+### Create Python virtual environment
+python -m venv .venv --system-site-packages
+
+### Activate virtual environment
+source .venv/bin/activate
+
+### Install Blynk dependencies
+pip install https://bit.ly/3C0PMVY
+
+### Create Blynk virtual pin
+export BLYNK_AUTH="eQW_41fc48GdNj-xGus9cZgQ4vD7N5Dg"
+
+### Run Blynk Script
+python blynk.py
+
+## View Output in Blynk App
+Create account and follow quickstart guides.
+https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk
+Set up dashboard as below for **V0 - Temperature** and **V1 - Temperature Status Message**
+
+### Desktop Dashboard
+![Blynk desktop dashboard](image.png)
+
+### Mobile Dashboard
+![Blynk mobile dashboard](image-1.png)
